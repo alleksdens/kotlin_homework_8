@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NotesService.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">NoteService</a> &gt; <a href="index.source.html" class="el_package">ru.netology.service</a> &gt; <span class="el_source">NotesService.kt</span></div><h1>NotesService.kt</h1><pre class="source lang-java linenums">package ru.netology.service
+
+import ru.netology.data.*
+import ru.netology.interfaces.CrudService
+
+object NotesService : CrudService&lt;Notes, NoteComments&gt; {
+<span class="fc" id="L7">    private val notesList = mutableListOf&lt;Notes&gt;()</span>
+<span class="fc" id="L8">    private val noteCommentsList = mutableListOf&lt;NoteComments&gt;()</span>
+
+    override fun add(item: Notes): Notes {
+<span class="fc" id="L11">        notesList.add(item.copy(id = notesList.size + 1))</span>
+<span class="fc" id="L12">        println(&quot;вњ” Р”РѕР±Р°РІР»РµРЅР° Р·Р°РјРµС‚РєР° ${notesList.last()} \n&quot;)</span>
+<span class="fc" id="L13">        return notesList.last()</span>
+    }
+
+    @Throws(TryingAddToRemovedNote::class, CommentsAreForbidden::class)
+    override fun createComment(note: Notes, item: NoteComments): NoteComments {
+<span class="fc bfc" id="L18" title="All 2 branches covered.">        if (note.removed) throw TryingAddToRemovedNote(&quot;вњ– РћС€РёР±РєР°: РџРѕРїС‹С‚РєР° РґРѕР±Р°РІРёС‚СЊ РєРѕРјРјРµРЅС‚Р°СЂРёР№ Рє СѓРґР°Р»РµРЅРЅРѕР№ Р·Р°РјРµС‚РєРµ! \n&quot;)</span>
+<span class="fc bfc" id="L19" title="All 2 branches covered.">        if (note.can_comment == 0) throw CommentsAreForbidden(&quot;вњ– РћС€РёР±РєР°: РљРѕРјРјРµРЅС‚Р°СЂРёРё Рє РґР°РЅРЅРѕР№ Р·Р°РјРµС‚РєРµ РѕС‚РєР»СЋС‡РµРЅС‹! \n&quot;)</span>
+
+<span class="fc" id="L21">        noteCommentsList.add(item.copy(id = noteCommentsList.size + 1, note_id = note.id))</span>
+<span class="fc" id="L22">        note.comments += 1</span>
+<span class="fc" id="L23">        println(&quot;вњ” Рљ Р·Р°РјРµС‚РєРµ id = ${note.id} РґРѕР±Р°РІР»РµРЅ РєРѕРјРјРµРЅС‚Р°СЂРёР№ ${noteCommentsList.last()} \n&quot;)</span>
+<span class="fc" id="L24">        return noteCommentsList.last()</span>
+    }
+
+    @Throws(NoteNotFound::class)
+    override fun delete(note_id: Int): Boolean {
+<span class="fc" id="L29">        println(&quot;РЈРґР°Р»РµРЅРёРµ Р·Р°РјРµС‚РєРё id = $note_id Рё РІСЃРµС… РєРѕРјРјРµРЅС‚Р°СЂРёРµРІ Рє РЅРµР№... \n&quot;)</span>
+<span class="pc bpc" id="L30" title="1 of 6 branches missed.">        val notesList = notesList.filter { it.id == note_id &amp;&amp; !it.removed }</span>
+
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        if (notesList.isEmpty()) throw NoteNotFound(&quot;вњ– РўР°РєРѕР№ Р·Р°РјРµС‚РєРё РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ Р»РёР±Рѕ РѕРЅР° Р±С‹Р»Р° СѓРґР°Р»РµРЅР° СЂР°РЅРµРµ!&quot;)</span>
+
+<span class="fc" id="L34">        val removedNote = notesList[0]</span>
+<span class="fc" id="L35">            .also { it.removed = true }</span>
+
+<span class="fc" id="L37">        noteCommentsList.filter {</span>
+<span class="pc bpc" id="L38" title="2 of 4 branches missed.">            it.note_id == note_id</span>
+        }
+<span class="fc" id="L40">            .forEach {</span>
+<span class="fc" id="L41">                it.removed = true</span>
+<span class="fc" id="L42">                removedNote.comments -= 1</span>
+<span class="fc" id="L43">                println(&quot;вњ” РЈРґР°Р»РµРЅ РєРѕРјРјРµРЅС‚Р°СЂРёР№ Рє Р·Р°РјРµС‚РєРµ id = $note_id: $it \n&quot;)</span>
+<span class="fc" id="L44">            }</span>
+
+<span class="fc" id="L46">        println(&quot;вњ” РЈРґР°Р»РµРЅР° Р·Р°РјРµС‚РєР° $removedNote \n&quot;)</span>
+<span class="fc" id="L47">        return true</span>
+    }
+
+    @Throws(CommentNotFound::class)
+    override fun deleteComment(comment_id: Int): Boolean {
+<span class="fc" id="L52">        println(&quot;РЈРґР°Р»РµРЅРёРµ РєРѕРјРµРЅС‚Р°СЂРёСЏ id = $comment_id \n&quot;)</span>
+<span class="pc bpc" id="L53" title="1 of 6 branches missed.">        val commentList = noteCommentsList.filter { it.id == comment_id &amp;&amp; !it.removed }</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        if (commentList.isEmpty()) {</span>
+<span class="fc" id="L55">            throw CommentNotFound(&quot;вњ– РўР°РєРѕРіРѕ РєРѕРјРјРµРЅС‚Р°СЂРёСЏ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ Р»РёР±Рѕ РѕРЅ Р±С‹Р» СѓРґР°Р»РµРЅ СЂР°РЅРµРµ! \n&quot;)</span>
+        }
+<span class="fc" id="L57">        val removedComment = commentList.get(0)</span>
+
+<span class="pc bpc" id="L59" title="3 of 6 branches missed.">        val parentNoteList = notesList.filter { it.id == removedComment.note_id &amp;&amp; !it.removed }</span>
+
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">        if (parentNoteList.isEmpty()) {</span>
+<span class="nc" id="L62">            println(&quot;вњ– РќРµРІРѕР·РјРѕР¶РЅРѕ СѓРґР°Р»РёС‚СЊ РєРѕРјРјРµРЅС‚Р°СЂРёР№, С‚.Рє. РѕРЅ РїСЂРёРЅР°РґР»РµР¶РёС‚ СѓРґР°Р»РµРЅРЅРѕР№ Р·Р°РјРµС‚РєРµ! \n&quot;)</span>
+<span class="nc" id="L63">            return false</span>
+        }
+
+<span class="fc" id="L66">        val parentNote = parentNoteList.get(0).also { it.comments -= 1 }</span>
+<span class="fc" id="L67">        removedComment.removed = true</span>
+<span class="fc" id="L68">        println(&quot;вњ” РЈРґР°Р»РµРЅ РєРѕРјРјРµРЅС‚Р°СЂРёР№ $removedComment. РћСЃС‚Р°РІС€РёС…СЃСЏ РєРѕРјРјРµРЅС‚Р°СЂРёРµРІ Рє Р·Р°РјРµС‚РєРµ id = ${removedComment.note_id}: ${parentNote.comments} \n&quot;)</span>
+<span class="fc" id="L69">        return true</span>
+    }
+
+    @Throws(NoteNotFound::class)
+    override fun edit(
+        note_id: Int,
+        title: String,
+        text: String,
+        date: Int,
+        view_url: String?,
+        can_comment: Int
+    ): Boolean {
+<span class="fc" id="L81">        println(&quot;Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ Р·Р°РјРµС‚РєРё id = $note_id... \n&quot;)</span>
+<span class="pc bpc" id="L82" title="3 of 6 branches missed.">        val notesList = notesList.filter { it.id == note_id &amp;&amp; !it.removed }</span>
+
+<span class="fc bfc" id="L84" title="All 2 branches covered.">        if (notesList.isEmpty()) {</span>
+<span class="fc" id="L85">            throw NoteNotFound(&quot;вњ– РўР°РєРѕР№ Р·Р°РјРµС‚РєРё РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ Р»РёР±Рѕ РѕРЅР° Р±С‹Р»Р° СѓРґР°Р»РµРЅР° СЂР°РЅРµРµ! \n&quot;)</span>
+        }
+
+<span class="fc" id="L88">        val editNote = notesList[0]</span>
+<span class="fc" id="L89">            .also {</span>
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">                it.title = if (title == &quot;&quot;) it.title else title</span>
+<span class="pc bpc" id="L91" title="1 of 2 branches missed.">                it.text = if (text == &quot;&quot;) it.text else text</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">                it.date = if (date == 0) it.date else date</span>
+<span class="pc bpc" id="L93" title="1 of 2 branches missed.">                it.view_url = view_url ?: it.view_url</span>
+<span class="fc" id="L94">                it.can_comment = can_comment</span>
+<span class="fc" id="L95">            }</span>
+
+<span class="fc" id="L97">        println(&quot;вњ” Р—Р°РјРµС‚РєР° СѓСЃРїРµС€РЅРѕ РѕС‚СЂРµРґР°РєС‚РёСЂРѕРІР°РЅР°: $editNote\n&quot;)</span>
+<span class="fc" id="L98">        return true</span>
+    }
+
+    @Throws(CommentNotFound::class)
+    override fun editComment(comment_id: Int, message: String): Boolean {
+<span class="fc" id="L103">        println(&quot;Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ РєРѕРјРјРµРЅС‚Р°СЂРёСЏ id = $comment_id... \n&quot;)</span>
+<span class="pc bpc" id="L104" title="1 of 6 branches missed.">        val commentList = noteCommentsList.filter { it.id == comment_id &amp;&amp; !it.removed }</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        if (commentList.isEmpty()) {</span>
+<span class="fc" id="L106">            throw CommentNotFound(&quot;вњ– РўР°РєРѕРіРѕ РєРѕРјРјРµРЅС‚Р°СЂРёСЏ РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚ Р»РёР±Рѕ РѕРЅ Р±С‹Р» СѓРґР°Р»РµРЅ СЂР°РЅРµРµ! \n&quot;)</span>
+        }
+<span class="fc" id="L108">        val editComment = commentList[0].also { it.message = message }</span>
+<span class="fc" id="L109">        println(&quot;вњ” РљРѕРјРјРµРЅС‚Р°СЂРёР№ СѓСЃРїРµС€РЅРѕ РѕС‚СЂРµРґР°РєС‚РёСЂРѕРІР°РЅ: $editComment\n&quot;)</span>
+<span class="fc" id="L110">        return true</span>
+    }
+
+    override fun get(note_ids: List&lt;Int&gt;, offset: Int, count: Int, sort: SortTypes): List&lt;Notes&gt; {
+<span class="fc" id="L114">        val foundNotesList =</span>
+<span class="pc bpc" id="L115" title="8 of 10 branches missed.">            if (note_ids.isNotEmpty()) notesList.filter { it.id in note_ids &amp;&amp; !it.removed }</span>
+<span class="pc bpc" id="L116" title="2 of 4 branches missed.">                .toList() else notesList.filter { !it.removed }.toList()</span>
+
+<span class="pc bpc" id="L118" title="1 of 2 branches missed.">        val totalCount = if (count &lt; 0) foundNotesList.size else count</span>
+<span class="pc bpc" id="L119" title="1 of 2 branches missed.">        val countRec = if (foundNotesList.size &gt;= offset + totalCount) offset + totalCount else foundNotesList.size</span>
+<span class="fc" id="L120">        val subList = foundNotesList.subList(offset, countRec)</span>
+<span class="pc bpc" id="L121" title="1 of 2 branches missed.">        if (sort.id == 0) return subList.sortedByDescending { it.date }</span>
+<span class="fc" id="L122">        return subList.sortedBy { it.date }</span>
+    }
+
+    @Throws(NoteNotFound::class)
+    override fun getById(note_id: Int): Notes {
+<span class="pc bpc" id="L127" title="1 of 6 branches missed.">        val foundNoteList = notesList.filter { it.id == note_id &amp;&amp; !it.removed }</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">        if (foundNoteList.isEmpty()) throw NoteNotFound(&quot;вњ– Р—Р°РјРµС‚РєР° СЃ id $note_id РЅРµ РЅР°Р№РґРµРЅР°!\n&quot;)</span>
+<span class="fc" id="L129">        return foundNoteList[0]</span>
+    }
+
+    override fun getComments(note_id: Int, sort: SortTypes, offset: Int, count: Int): List&lt;NoteComments&gt; {
+<span class="pc bpc" id="L133" title="4 of 8 branches missed.">        if (notesList.none { it.id == note_id &amp;&amp; !it.removed }) return emptyList&lt;NoteComments&gt;() //РІРѕР·СЂР°С‰Р°РµРј РїСѓСЃС‚РѕР№ СЃРїРёСЃРѕРє, С‚.Рє. Сѓ СѓРґР°Р»РµРЅРЅРѕР№ Р·Р°РјРµС‚РєРё РІСЃРµ РєРѕРјРјРµРЅС‚Р°СЂРёРё РїРѕРјРµС‡РµРЅС‹ РЅР° СѓРґР°Р»РµРЅРёРµ</span>
+
+<span class="pc bpc" id="L135" title="3 of 6 branches missed.">        val foundNoteCommentsList = noteCommentsList.filter { it.note_id == note_id &amp;&amp; !it.removed }.toList()</span>
+
+<span class="pc bpc" id="L137" title="1 of 2 branches missed.">        val totalCount = if (count &lt; 0) foundNoteCommentsList.size else count</span>
+<span class="fc" id="L138">        val countRec =</span>
+<span class="pc bpc" id="L139" title="1 of 2 branches missed.">            if (foundNoteCommentsList.size &gt;= offset + totalCount) offset + totalCount else foundNoteCommentsList.size</span>
+<span class="fc" id="L140">        val subList = foundNoteCommentsList.subList(offset, countRec)</span>
+<span class="pc bpc" id="L141" title="1 of 2 branches missed.">        if (sort.id == 0) return subList.sortedByDescending { it.date }</span>
+<span class="nc" id="L142">        return subList.sortedBy { it.date }</span>
+    }
+
+    @Throws(CommentNotFound::class, NoteNotFound::class)
+    override fun restoreComment(comment_id: Int): NoteComments {
+<span class="pc bpc" id="L147" title="3 of 6 branches missed.">        val foundNoteCommentsList = noteCommentsList.filter { it.id == comment_id &amp;&amp; it.removed }</span>
+<span class="pc bpc" id="L148" title="1 of 2 branches missed.">        if (foundNoteCommentsList.isEmpty()) throw CommentNotFound(&quot;вњ– РќРµРІРѕР·РјРѕР¶РЅРѕ РІРѕСЃСЃС‚Р°РЅРѕРІРёС‚СЊ РєРѕРјРјРµРЅС‚Р°СЂРёР№: РєРѕРјРјРµРЅС‚Р°СЂРёСЏ СЃ id $comment_id РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚!\n&quot;)</span>
+<span class="pc bpc" id="L149" title="1 of 8 branches missed.">        if (notesList.none { it.id == foundNoteCommentsList[0].note_id &amp;&amp; !it.removed }) throw NoteNotFound(&quot;вњ– РќРµРІРѕР·РјРѕР¶РЅРѕ РІРѕСЃСЃС‚Р°РЅРѕРІРёС‚СЊ РєРѕРјРјРµРЅС‚Р°СЂРёР№: СЃРѕРґРµСЂР¶Р°С‰Р°СЏ РµРіРѕ Р·Р°РјРµС‚РєР° СѓРґР°Р»РµРЅР°!&quot;)</span>
+<span class="fc" id="L150">        return foundNoteCommentsList[0].also { it.removed = false }</span>
+    }
+
+    fun clearAllNotes() {
+<span class="fc" id="L154">        notesList.clear()</span>
+<span class="fc" id="L155">    }</span>
+
+    fun clearAllComments() {
+<span class="fc" id="L158">        noteCommentsList.clear()</span>
+<span class="fc" id="L159">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

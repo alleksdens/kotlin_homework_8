@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - Class NoteService</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>Class NoteService</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/default-package.html">default-package</a> &gt; NoteService</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">20</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">0.575s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">addNote</td>
+<td class="success">0.433s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">createComment</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">createCommentErrorCommentsAreForbidden</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">createCommentErrorNoteNotFound</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">createCommentErrorTryingAddToRemovedNote</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">deleteComment</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">deleteCommentError</td>
+<td class="success">0.002s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">deleteCommentExistingNote</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">deleteNote</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">deleteNoteError</td>
+<td class="success">0.036s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">editComment</td>
+<td class="success">0.071s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">editNote</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">editNoteError</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">editRemovedCommentExistingNote</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">getAllComments</td>
+<td class="success">0.007s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">getNotes</td>
+<td class="success">0.008s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">getNotesFromId</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">getRemovedNote</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">restoreCommentExistingNote</td>
+<td class="success">0.003s</td>
+<td class="success">passed</td>
+</tr>
+<tr>
+<td class="success">restoreRemovedCommentRemovedNote</td>
+<td class="success">0.001s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>Удаление заметки id = 5 и всех комментариев к ней... 
+
+? Добавлена заметка Notes(id=1, title=Test title, text=Test text, date=20220606, comments=0, read_comments=0, view_url=null, can_comment=1, removed=false) 
+
+? К заметке id = 1 добавлен комментарий NoteComments(id=1, note_id=1, date=20220606, message=Error comment, removed=false) 
+
+Редактирование комментария id = 1... 
+
+? Комментарий успешно отредактирован: NoteComments(id=1, note_id=1, date=20220606, message=After editing comment text, removed=false)
+
+? Добавлена заметка Notes(id=1, title=Test title, text=Test text, date=20220606, comments=0, read_comments=0, view_url=null, can_comment=0, removed=false) 
+
+Редактирование заметки id = 23... 
+
+? Добавлена заметка Notes(id=1, title=Test title, text=Test text, date=20220606, comments=0, read_comments=0, view_url=null, can_comment=1, removed=false) 
+
+? К заметке id = 1 добавлен комментарий NoteComments(id=1, note_id=1, date=20220606, message=Comment for note, removed=false) 
+
+? Добавлена заметка Notes(id=1, title=Test title, text=Test text, date=20220606, comments=0, read_comments=0, view_url=null, can_comment=1, removed=false) 
+
+? К заметке id = 1 добавлен комментарий NoteComments(id=1, note_id=1, date=20220606, message=Error comment, removed=false) 
+
+Удаление коментария id = 1 
+
+? Удален комментарий NoteComments(id=1, note_id=1, date=20220606, message=Error comment, removed=true). Оставшихся комментариев к заметке id = 1: 0 
+
+Удаление коментария id = 1 
+
+? Добавлена заметка Notes(id=1, title=Test title, text=Test text, date=20220606, comments=0, read_comments=0, view_url=null, can_comment=1, removed=false) 
+
+? К заметке id = 1 добавлен комментарий NoteComments(id=1, note_id=1, date=20220606, message=Error comment, removed=false) 
+
+? Добавлена заметка Notes(id=1, title=Test title, text=Test text, date=20220606, comments=0, read_comments=0, view_url=null, can_comment=0, removed=false) 
+
+Удаление заметки id = 1 и всех комментариев к ней... 
+
+? Удалена заметка Notes(id=1, title=Test title, text=Test text, date=20220606, comments=0, read_comments=0, view_url=null, can_comment=0, removed=true) 
+
+? Добавлена заметка Notes(id=1, title=Test title, text=Test text, date=20220606, comments=0, read_comments=0, view_url=null, can_comment=0, removed=false) 
+
+Удаление заметки id = 1 и всех комментариев к ней... 
+
+? Удалена заметка Notes(id=1, title=Test title, text=Test text, date=20220606, comments=0, read_comments=0, view_url=null, can_comment=0, removed=true) 
+
+Удаление заметки id = 1 и всех комментариев к ней... 
+
+? Добавлена заметка Notes(id=1, title=Test title, text=Test text, date=20220606, comments=0, read_comments=0, view_url=null, can_comment=0, removed=false) 
+
+? Добавлена заметка Notes(id=1, title=Test title, text=Test text, date=20220606, comments=0, read_comments=0, view_url=null, can_comment=1, removed=false) 
+
+? К заметке id = 1 добавлен комментарий NoteComments(id=1, note_id=1, date=20220606, message=Error comment, removed=false) 
+
+Удаление заметки id = 1 и всех комментариев к ней... 
+
+? Удален комментарий к заметке id = 1: NoteComments(id=1, note_id=1, date=20220606, message=Error comment, removed=true) 
+
+? Удалена заметка Notes(id=1, title=Test title, text=Test text, date=20220606, comments=0, read_comments=0, view_url=null, can_comment=1, removed=true) 
+
+Удаление коментария id = 1 
+
+? Добавлена заметка Notes(id=1, title=Test title, text=Test text, date=20220606, comments=0, read_comments=0, view_url=null, can_comment=1, removed=false) 
+
+? К заметке id = 1 добавлен комментарий NoteComments(id=1, note_id=1, date=20220606, message=Error comment, removed=false) 
+
+Удаление коментария id = 1 
+
+? Удален комментарий NoteComments(id=1, note_id=1, date=20220606, message=Error comment, removed=true). Оставшихся комментариев к заметке id = 1: 0 
+
+Удаление заметки id = 1 и всех комментариев к ней... 
+
+? Удален комментарий к заметке id = 1: NoteComments(id=1, note_id=1, date=20220606, message=Error comment, removed=true) 
+
+? Удалена заметка Notes(id=1, title=Test title, text=Test text, date=20220606, comments=-1, read_comments=0, view_url=null, can_comment=1, removed=true) 
+
+? Добавлена заметка Notes(id=1, title=Test title, text=Test text, date=20220606, comments=0, read_comments=0, view_url=null, can_comment=1, removed=false) 
+
+? К заметке id = 1 добавлен комментарий NoteComments(id=1, note_id=1, date=20220606, message=Error comment, removed=false) 
+
+Удаление коментария id = 1 
+
+? Удален комментарий NoteComments(id=1, note_id=1, date=20220606, message=Error comment, removed=true). Оставшихся комментариев к заметке id = 1: 0 
+
+Редактирование комментария id = 1... 
+
+? Добавлена заметка Notes(id=1, title=Test title, text=Test text, date=20220606, comments=0, read_comments=0, view_url=null, can_comment=0, removed=false) 
+
+? Добавлена заметка Notes(id=1, title=Test title, text=Test text, date=20220606, comments=0, read_comments=0, view_url=null, can_comment=1, removed=false) 
+
+? К заметке id = 1 добавлен комментарий NoteComments(id=1, note_id=1, date=20220606, message=Error comment, removed=false) 
+
+Удаление коментария id = 1 
+
+? Удален комментарий NoteComments(id=1, note_id=1, date=20220606, message=Error comment, removed=true). Оставшихся комментариев к заметке id = 1: 0 
+
+? Добавлена заметка Notes(id=1, title=Test title, text=Test text, date=20220606, comments=0, read_comments=0, view_url=null, can_comment=1, removed=false) 
+
+? К заметке id = 1 добавлен комментарий NoteComments(id=1, note_id=1, date=20220606, message=Error comment, removed=false) 
+
+Удаление коментария id = 1 
+
+? Удален комментарий NoteComments(id=1, note_id=1, date=20220606, message=Error comment, removed=true). Оставшихся комментариев к заметке id = 1: 0 
+
+? Добавлена заметка Notes(id=1, title=Test title, text=Test text, date=20220606, comments=0, read_comments=0, view_url=null, can_comment=0, removed=false) 
+
+Удаление заметки id = 1 и всех комментариев к ней... 
+
+? Удалена заметка Notes(id=1, title=Test title, text=Test text, date=20220606, comments=0, read_comments=0, view_url=null, can_comment=0, removed=true) 
+
+? Добавлена заметка Notes(id=1, title=Test title, text=Test text, date=20220606, comments=0, read_comments=0, view_url=null, can_comment=0, removed=false) 
+
+Редактирование заметки id = 1... 
+
+? Заметка успешно отредактирована: Notes(id=1, title=After editing title, text=After editing text, date=20220606, comments=0, read_comments=0, view_url=null, can_comment=1, removed=false)
+
+? Добавлена заметка Notes(id=1, title=Test title, text=Test text, date=20220606, comments=0, read_comments=0, view_url=null, can_comment=0, removed=false) 
+
+Удаление заметки id = 1 и всех комментариев к ней... 
+
+? Удалена заметка Notes(id=1, title=Test title, text=Test text, date=20220606, comments=0, read_comments=0, view_url=null, can_comment=0, removed=true) 
+
+? Добавлена заметка Notes(id=1, title=Test title, text=Test text, date=20220606, comments=0, read_comments=0, view_url=null, can_comment=0, removed=false) 
+
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 7.1</a> at 20 авг. 2022 г., 22:11:15</p>
+</div>
+</div>
+</body>
+</html>

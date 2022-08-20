@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>main.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">NoteService</a> &gt; <a href="index.source.html" class="el_package">ru.netology</a> &gt; <span class="el_source">main.kt</span></div><h1>main.kt</h1><pre class="source lang-java linenums">package ru.netology
+
+import ru.netology.data.*
+import ru.netology.service.NotesService
+
+fun main(args: Array&lt;String&gt;) {
+
+    // РЎРѕР·РґР°РґРёРј РЅРµСЃРєРѕР»СЊРєРѕ Р·Р°РјРµС‚РѕРє
+<span class="nc" id="L9">    val noteOne = NotesService.add(Notes(title = &quot;Test title&quot;, text = &quot;Test text&quot;, date = 20220606, can_comment = 0))</span>
+<span class="nc" id="L10">    val noteTwo = NotesService.add(Notes(title = &quot;Test title 2&quot;, text = &quot;Test text 2&quot;, date = 20220605))</span>
+<span class="nc" id="L11">    val noteThree = NotesService.add(Notes(title = &quot;Test title 3&quot;, text = &quot;Test text 3&quot;, date = 20220606))</span>
+
+    //РЎРѕР·РґР°РґРёРј РєРѕРјРјРµРЅС‚Р°СЂРёР№ Рє РІС‚РѕСЂРѕР№ Р·Р°РјРµС‚РєРµ
+<span class="nc" id="L14">    val commentOneNoteTwo =</span>
+<span class="nc" id="L15">        NotesService.createComment(noteTwo, NoteComments(message = &quot;Comment for note #2&quot;, date = 20220606))</span>
+
+    //РЎРѕР·РґР°РґРёРј 3 РєРѕРјРјРµРЅС‚Р°СЂРёСЏ Рє С‚РµСЂС‚СЊРµР№ Р·Р°РјРµС‚РєРµ
+<span class="nc" id="L18">    val commentOneNoteThree =</span>
+<span class="nc" id="L19">        NotesService.createComment(noteThree, NoteComments(message = &quot;First comment for note #3&quot;, date = 20220606))</span>
+<span class="nc" id="L20">    val commentTwoNoteThree =</span>
+<span class="nc" id="L21">        NotesService.createComment(noteThree, NoteComments(message = &quot;Second comment for note #3&quot;, date = 20220606))</span>
+<span class="nc" id="L22">    val commentThreeNoteThree =</span>
+<span class="nc" id="L23">        NotesService.createComment(noteThree, NoteComments(message = &quot;Third comment for note #3&quot;, date = 20220606))</span>
+
+    //РџРѕРїСЂРѕР±СѓРµРј СѓРґР°Р»РёС‚СЊ РЅРµСЃСѓС‰РµСЃС‚РІСѓСЋС‰СѓСЋ Р·Р°РјРµС‚РєСѓ
+<span class="nc" id="L26">    try {</span>
+<span class="nc" id="L27">        NotesService.delete(5)</span>
+<span class="nc" id="L28">    } catch (e: NoteNotFound) {</span>
+<span class="nc" id="L29">        println(e.message)</span>
+    }
+
+    //РЈРґР°Р»РёРј Р·Р°РјРµС‚РєСѓ #3
+<span class="nc" id="L33">    NotesService.delete(noteThree.id)</span>
+
+    //РїРѕРїСЂРѕР±СѓРµРј СЃРѕР·РґР°С‚СЊ РєРѕРјРјРµРЅС‚Р°СЂРёР№ Рє СЂР°РЅРµРµ СѓРґР°Р»РµРЅРЅРѕР№ Р·Р°РјРµС‚РєРµ (noteThree)
+<span class="nc" id="L36">    try {</span>
+<span class="nc" id="L37">        val createErrorComment =</span>
+<span class="nc" id="L38">            NotesService.createComment(noteThree, NoteComments(message = &quot;Error comment&quot;, date = 20220606))</span>
+<span class="nc" id="L39">    } catch (e: TryingAddToRemovedNote) {</span>
+<span class="nc" id="L40">        println(e.message)</span>
+    }
+
+    //РћС‚СЂРµРґР°РєС‚РёСЂСѓРµРј СЃСѓС‰РµСЃС‚РІСѓСЋС‰СѓСЋ Р·Р°РјРµС‚РєСѓ Рё РІРєР»СЋС‡РёРј РєРѕРјРјРµРЅС‚Р°СЂРёРё РґР»СЏ РЅРµРµ
+<span class="nc" id="L44">    NotesService.edit(note_id = noteOne.id, title = &quot;After editing title&quot;, text = &quot;After editing text&quot;, can_comment = 1)</span>
+
+    //РџРѕРїСЂРѕР±СѓРµРј РѕС‚СЂРµРґР°РєС‚РёСЂРѕРІР°С‚СЊ РЅРµСЃСѓС‰РµСЃС‚РІСѓСЋС‰СѓСЋ Р·Р°РјРµС‚РєСѓ
+<span class="nc" id="L47">    try {</span>
+<span class="nc" id="L48">        NotesService.edit(note_id = 23, title = &quot;Error editing title&quot;, text = &quot;Error editing text&quot;, can_comment = 1)</span>
+<span class="nc" id="L49">    } catch (e: NoteNotFound) {</span>
+<span class="nc" id="L50">        println(e.message)</span>
+    }
+
+    //Р”РѕР±Р°РІРёРј РєРѕРјРјРµРЅС‚Р°СЂРёРё Рє Р·Р°РјРµС‚РєРµ (noteOne) РїРѕСЃР»Рµ РІРєР»СЋС‡РµРЅРёСЏ РєРѕРјРјРµРЅС‚Р°СЂРёРµРІ РІ РЅРµР№
+<span class="nc" id="L54">    val commentOneNoteOne =</span>
+<span class="nc" id="L55">        NotesService.createComment(noteOne, NoteComments(message = &quot;First comment for note #1&quot;, date = 20220606))</span>
+<span class="nc" id="L56">    val commentTwoNoteOne =</span>
+<span class="nc" id="L57">        NotesService.createComment(noteOne, NoteComments(message = &quot;Second comment for note #1&quot;, date = 20220605))</span>
+
+    //РџРѕРїСЂРѕР±СѓРµРј РґРѕР±Р°РІРёС‚СЊ РєРѕРјРјРµРЅС‚Р°СЂРёР№ Рє Р·Р°РјРµС‚РєРµ СЃ РѕС‚РєР»СЋС‡РµРЅРЅС‹РјРё РєРѕРјРјРµРЅС‚Р°СЂРёСЏРјРё (noteOne)
+<span class="nc" id="L60">    try {</span>
+<span class="nc" id="L61">        val createErrorComment =</span>
+<span class="nc" id="L62">            NotesService.createComment(noteOne, NoteComments(message = &quot;Error comment&quot;, date = 20220606))</span>
+<span class="nc" id="L63">    } catch (e: CommentsAreForbidden) {</span>
+<span class="nc" id="L64">        println(e.message)</span>
+    }
+
+    //РџРѕРїСЂРѕР±СѓРµРј СѓРґР°Р»РёС‚СЊ СЂР°РЅРµРµ СѓРґР°Р»РµРЅРЅСѓСЋ Р·Р°РјРµС‚РєСѓ (#3)
+<span class="nc" id="L68">    try {</span>
+<span class="nc" id="L69">        NotesService.delete(noteThree.id)</span>
+<span class="nc" id="L70">    } catch (e: NoteNotFound) {</span>
+<span class="nc" id="L71">        println(e.message)</span>
+    }
+
+    //РџРѕРїСЂРѕР±СѓРµРј СѓРґР°Р»РёС‚СЊ РєРѕРјРјРµРЅС‚Р°СЂРёР№ (commentOneNoteThree) СѓРґР°Р»РµРЅРЅРѕР№ СЂР°РЅРµРµ Р·Р°РјРµС‚РєРё (noteThree)
+<span class="nc" id="L75">    try {</span>
+<span class="nc" id="L76">        NotesService.deleteComment(commentOneNoteThree.id)</span>
+<span class="nc" id="L77">    } catch (e: CommentNotFound) {</span>
+<span class="nc" id="L78">        println(e.message)</span>
+    }
+
+    //РЈРґР°Р»РёРј СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёР№ РєРѕРјРјРµРЅС‚Р°СЂРёР№ (commentOneNoteTwo) СЃСѓС‰РµСЃС‚РІСѓСЋС‰РµР№ Р·Р°РјРµС‚РєРё (noteTwo)
+<span class="nc" id="L82">    NotesService.deleteComment(commentOneNoteTwo.id)</span>
+
+    //РџРѕРїСЂРѕР±СѓРµРј СѓРґР°Р»РёС‚СЊ СЂР°РЅРµРµ СѓРґР°Р»РµРЅРЅС‹Р№ РєРѕРјРјРµРЅС‚Р°СЂРёР№ (commentOneNoteTwo) СЃСѓС‰РµСЃС‚РІСѓСЋС‰РµР№ Р·Р°РјРµС‚РєРё (noteTwo)
+<span class="nc" id="L85">    try {</span>
+<span class="nc" id="L86">        NotesService.deleteComment(commentOneNoteTwo.id)</span>
+<span class="nc" id="L87">    } catch (e: CommentNotFound) {</span>
+<span class="nc" id="L88">        println(e.message)</span>
+    }
+    //РћС‚СЂРµРґР°РєС‚РёСЂСѓРµРј СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёР№ РєРѕРјРјРµРЅС‚Р°СЂРёР№ (commentOneNoteOne) СЃСѓС‰РµСЃС‚РІСѓСЋС‰РµР№ Р·Р°РјРµС‚РєРё (noteOne)
+<span class="nc" id="L91">    NotesService.editComment(commentOneNoteOne.id, &quot;After editing comment text&quot;)</span>
+
+    //РџРѕРїСЂРѕР±СѓРµРј РѕС‚СЂРµРґР°РєС‚РёСЂРѕРІР°С‚СЊ СѓРґР°Р»РµРЅРЅС‹Р№ СЂР°РЅРµРµ РєРѕРјРјРµРЅС‚Р°СЂРёР№ (commentOneNoteTwo) СЃСѓС‰РµСЃС‚РІСѓСЋС‰РµР№ Р·Р°РјРµС‚РєРё (noteTwo)
+<span class="nc" id="L94">    try {</span>
+<span class="nc" id="L95">        NotesService.editComment(commentOneNoteTwo.id, &quot;Error&quot;)</span>
+<span class="nc" id="L96">    } catch (e: CommentNotFound) {</span>
+<span class="nc" id="L97">        println(e.message)</span>
+    }
+    //РџРѕР»СѓС‡РёРј СЃРїРёСЃРѕРє РІСЃРµС… РЅРµ СѓРґР°Р»РµРЅРЅС‹С… Р·Р°РјРµС‚РѕРє СЃ СЃРѕСЂС‚РёСЂРѕРІРєРѕР№ РїРѕ РґР°С‚Рµ СЃРѕР·РґР°РЅРёСЏ РІ РїРѕСЂСЏРґРєРµ РІРѕР·СЂР°СЃС‚Р°РЅРёСЏ
+<span class="nc" id="L100">    println(</span>
+<span class="nc" id="L101">        &quot;РџРѕР»СѓС‡РµРЅ СЃРїРёСЃРѕРє Р·Р°РјРµС‚РѕРє (СЃРѕСЂС‚РёСЂРѕРІРєР° - РґР°С‚Р°  ${SortTypes.ASC.text}):\n${</span>
+<span class="nc" id="L102">            NotesService.get(</span>
+<span class="nc" id="L103">                offset = 0,</span>
+<span class="nc" id="L104">                sort = SortTypes.ASC</span>
+            )
+        }\n&quot;
+    )
+
+    //РџРѕР»СѓС‡РёРј СЃСѓС‰РµСЃС‚РІСѓСЋС‰СѓСЋ Р·Р°РјРµС‚РєСѓ (noteOne) РїРѕ id
+<span class="nc" id="L110">    println(&quot;РќР°Р№РґРµРЅР° Р·Р°РјРµС‚РєР°:\n${NotesService.getById(noteOne.id)}\n&quot;)</span>
+
+    //РџРѕРїСЂРѕР±СѓРµРј РїРѕР»СѓС‡РёС‚СЊ СѓРґР°Р»РµРЅРЅСѓСЋ СЂР°РЅРµРµ Р·Р°РјРµС‚РєСѓ (noteThree)
+<span class="nc" id="L113">    try {</span>
+<span class="nc" id="L114">        NotesService.getById(noteThree.id)</span>
+<span class="nc" id="L115">    } catch (e: NoteNotFound) {</span>
+<span class="nc" id="L116">        print(e.message)</span>
+    }
+
+    //РџРѕР»СѓС‡РёРј СЃРїРёСЃРѕРє РІСЃРµС… РЅРµСѓРґР°Р»РµРЅРЅС‹С… РєРѕРјРјРµРЅС‚Р°СЂРёРµРІ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РµР№ Р·Р°РјРµС‚РєРё СЃ СЃРѕСЂС‚РёСЂРѕРІРєРѕР№ РїРѕ РґР°С‚Рµ СЃРѕР·РґР°РЅРёСЏ РІ РїРѕСЂСЏРґРєРµ СѓР±С‹РІР°РЅРёСЏ
+<span class="nc" id="L120">    println(</span>
+<span class="nc" id="L121">        &quot;РџРѕР»СѓС‡РµРЅ СЃРїРёСЃРѕРє РєРѕРјРјРµРЅС‚Р°СЂРёРµРІ Рє Р·Р°РјРµС‚РєРµ id = ${noteOne.id} (СЃРѕСЂС‚РёСЂРѕРІРєР° - РґР°С‚Р°  ${SortTypes.DESC.text}):\n${</span>
+<span class="nc" id="L122">            NotesService.getComments(</span>
+<span class="nc" id="L123">                note_id = noteOne.id,</span>
+<span class="nc" id="L124">                offset = 0</span>
+            )
+        }\n&quot;
+    )
+
+    //РџРѕР»СѓС‡РёРј СЃРїРёСЃРѕРє РІСЃРµС… РЅРµСѓРґР°Р»РµРЅРЅС‹С… РєРѕРјРјРµРЅС‚Р°СЂРёРµРІ СѓРґР°Р»РµРЅРЅРѕР№ Р·Р°РјРµС‚РєРё СЃ СЃРѕСЂС‚РёСЂРѕРІРєРѕР№ РїРѕ РґР°С‚Рµ СЃРѕР·РґР°РЅРёСЏ РІ РїРѕСЂСЏРґРєРµ СѓР±С‹РІР°РЅРёСЏ
+<span class="nc" id="L130">    val commentFoundList = NotesService.getComments(note_id = noteThree.id, offset = 0)</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">    if (commentFoundList.isEmpty()) println(&quot;[РљРѕРјРјРµРЅС‚Р°СЂРёРё РЅРµ РЅР°Р№РґРµРЅС‹]&quot;)</span>
+<span class="nc" id="L132">    else println(</span>
+<span class="nc" id="L133">        &quot;РџРѕР»СѓС‡РµРЅ СЃРїРёСЃРѕРє РєРѕРјРјРµРЅС‚Р°СЂРёРµРІ Рє Р·Р°РјРµС‚РєРµ id = ${noteThree.id} (СЃРѕСЂС‚РёСЂРѕРІРєР° - РґР°С‚Р°  ${SortTypes.DESC.text}):\n$commentFoundList\n&quot;</span>
+    )
+
+    //РџРѕРїСЂРѕР±СѓРµРј РІРѕСЃСЃС‚Р°РЅРѕРІРёС‚СЊ СЂР°РЅРµРµ СѓРґР°Р»РµРЅРЅС‹Р№ РєРѕРјРјРµРЅС‚Р°СЂРёР№ СѓРґР°Р»РµРЅРЅРѕР№ Р·Р°РјРµС‚РєРё
+<span class="nc" id="L137">    try {</span>
+<span class="nc" id="L138">        NotesService.restoreComment(commentTwoNoteThree.id)</span>
+<span class="nc" id="L139">    } catch (e: NoteNotFound) {</span>
+<span class="nc" id="L140">        println(e.message)</span>
+<span class="nc" id="L141">    } catch (e: CommentNotFound) {</span>
+<span class="nc" id="L142">        println(e.message)</span>
+    }
+
+    //Р’РѕСЃСЃС‚Р°РЅРѕРІРёРј СЂР°РЅРµРµ СѓРґР°Р»РµРЅРЅС‹Р№ РєРѕРјРјРµРЅС‚Р°СЂРёР№ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РµР№ Р·Р°РјРµС‚РєРё
+<span class="nc" id="L146">    println(&quot;Р’РѕСЃСЃС‚Р°РЅРѕРІР»РµРЅ РєРѕРјРјРµРЅС‚Р°СЂРёР№: ${NotesService.restoreComment(commentOneNoteTwo.id)}&quot;)</span>
+<span class="nc" id="L147">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

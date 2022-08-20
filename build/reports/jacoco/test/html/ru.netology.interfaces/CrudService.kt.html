@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CrudService.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">NoteService</a> &gt; <a href="index.source.html" class="el_package">ru.netology.interfaces</a> &gt; <span class="el_source">CrudService.kt</span></div><h1>CrudService.kt</h1><pre class="source lang-java linenums">package ru.netology.interfaces
+
+import ru.netology.data.SortTypes
+
+
+interface CrudService&lt;TNotes, TNoteComments&gt; {
+    fun add(item: TNotes): TNotes
+    fun createComment(note: TNotes, item: TNoteComments): TNoteComments
+    fun delete(note_id: Int): Boolean
+    fun deleteComment(comment_id: Int): Boolean
+<span class="fc" id="L11">    fun edit(</span>
+        note_id: Int,
+<span class="nc" id="L13">        title: String = &quot;&quot;,</span>
+<span class="nc" id="L14">        text: String = &quot;&quot;,</span>
+<span class="fc" id="L15">        date: Int = 0,</span>
+<span class="fc" id="L16">        view_url: String? = null,</span>
+        can_comment: Int
+    ): Boolean
+
+    fun editComment(comment_id: Int, message: String): Boolean
+<span class="fc" id="L21">    fun get(</span>
+<span class="fc" id="L22">        note_ids: List&lt;Int&gt; = emptyList&lt;Int&gt;(),</span>
+<span class="nc" id="L23">        offset: Int = 0,</span>
+<span class="fc" id="L24">        count: Int = -1,</span>
+<span class="nc" id="L25">        sort: SortTypes = SortTypes.DESC</span>
+    ): List&lt;TNotes&gt;
+
+    fun getById(note_id: Int): TNotes
+<span class="fc" id="L29">    fun getComments(</span>
+        note_id: Int,
+<span class="fc" id="L31">        sort: SortTypes = SortTypes.DESC,</span>
+<span class="nc" id="L32">        offset: Int = 0,</span>
+<span class="fc" id="L33">        count: Int = -1</span>
+    ): List&lt;TNoteComments&gt;
+
+    fun restoreComment(comment_id: Int): TNoteComments
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
